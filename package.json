@@ -1,7 +1,7 @@
 {
   "name": "myagent",
-  "version": "0.1.0-alpha.1",
-  "description": "AI-powered quant trading agent (蓝海:AI 增强 quant 工具)",
+  "version": "0.2.0-alpha",
+  "description": "AI-powered quant trading agent · AI 增强的量化交易 agent",
   "type": "module",
   "main": "src/main.ts",
   "bin": {
@@ -13,7 +13,9 @@
     "build": "bun build src/main.ts --outdir=dist --target=bun",
     "typecheck": "tsc --noEmit",
     "lint": "echo 'TODO: add eslint'",
-    "test": "bun test"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "keywords": [
     "ai",
@@ -30,7 +32,9 @@
   "license": "MIT",
   "devDependencies": {
     "@types/bun": "latest",
-    "typescript": "^5.0.0"
+    "@vitest/coverage-v8": "^2.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^2.0.0"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.0",
