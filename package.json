@@ -1,0 +1,42 @@
+{
+  "name": "myagent",
+  "version": "0.1.0-alpha.1",
+  "description": "AI-powered quant trading agent (蓝海:AI 增强 quant 工具)",
+  "type": "module",
+  "main": "src/main.ts",
+  "bin": {
+    "myagent": "./bin/myagent"
+  },
+  "scripts": {
+    "dev": "bun run src/main.ts",
+    "start": "bun run src/main.ts",
+    "build": "bun build src/main.ts --outdir=dist --target=bun",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo 'TODO: add eslint'",
+    "test": "bun test"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "quant",
+    "trading",
+    "llm",
+    "claude",
+    "deepseek",
+    "qwen",
+    "cryptocurrency"
+  ],
+  "author": "myagent contributors",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.27.0",
+    "openai": "^4.0.0"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  }
+}
