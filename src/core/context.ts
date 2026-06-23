@@ -1,7 +1,7 @@
 /**
  * Context management - 借鉴 Claude Code snipCompact 思路,简化版
  *
- * Claude Code:snipCompact 5 文件(完整压缩算法)
+ * Claude Code:snipCompact 5 文件(full compaction algo)
  * 我们:简单滑动窗口(够 v0.1 用)
  */
 

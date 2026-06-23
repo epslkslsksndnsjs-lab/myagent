@@ -4,7 +4,7 @@
  * 每个策略:
  *   - on_tick(candle): 收到新 K 线
  *   - generate_signal(): 生成交易信号
- *   - 内部状态
+ *   - 内部 stats
  */
 
 import { Candle } from './indicators';

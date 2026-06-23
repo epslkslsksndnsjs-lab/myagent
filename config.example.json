@@ -1,0 +1,38 @@
+{
+  "mode": "paper",
+  "tickInterval": 300,
+  "symbols": ["BTC/USDT", "ETH/USDT", "SOL/USDT"],
+  "strategy": {
+    "name": "MA Cross",
+    "params": {
+      "fast": 5,
+      "slow": 20
+    }
+  },
+  "risk": {
+    "maxPositionPct": 0.6,
+    "maxSingleAssetPct": 0.2,
+    "maxLeverage": 1.5,
+    "maxDailyLossPct": 0.05,
+    "maxDrawdownPct": 0.15
+  },
+  "llm": {
+    "provider": "mock",
+    "model": "claude-sonnet-4.5",
+    "temperature": 0.3,
+    "maxTokens": 1024
+  },
+  "alerts": {
+    "dingtalk": "",
+    "wechat": "",
+    "telegram": "",
+    "webhook": ""
+  },
+  "exchange": {
+    "provider": "mock",
+    "testnet": true
+  },
+  "data": {
+    "provider": "coingecko"
+  }
+}

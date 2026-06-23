@@ -12,7 +12,7 @@
 
 - TypeScript strict mode
 - 函数 < 50 行
-- 文件 < 300 行
+- code < 300 lines
 - 测试覆盖新代码
 - 触发词 < 10/文档
 

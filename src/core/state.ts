@@ -1,8 +1,8 @@
 /**
- * 状态持久化 - 借鉴 Claude Code memdir 思路,简化版
+ * 状态保存 - 借鉴 Claude Code memdir 思路,简化版
  *
  * Claude Code:memdir 21K 行(完整实现)
- * 我们:JSON 文件存储(简化版,够用)
+ * 我们:JSON 存储(简化版,够用)
  */
 
 import { readFile, writeFile, mkdir } from 'fs/promises';

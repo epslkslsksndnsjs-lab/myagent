@@ -72,7 +72,7 @@ export class BacktestEngine {
       throw new Error('No candles provided');
     }
 
-    // 状态
+    // stats
     let cash = this.config.initialCapital;
     let position = 0;
     let entryPrice = 0;

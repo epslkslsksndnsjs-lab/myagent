@@ -6,7 +6,7 @@
 - Claude Code 2.1.88 agent loop 模式(已泄露源码)
 - claude-code-router 多 LLM 路由(35K stars MIT)
 - vnpy 整体 quant 工具设计(42K stars MIT)
-- LangGraph 状态机思路
+- LangGraph state machine思路
 
 ### 自有(差异化)
 - 8 个 AI quant 工具(input/output 标准化)
@@ -24,7 +24,7 @@ Layer 1: 入口(daemon + tick 调度)
 
 Layer 2: Agent 核心
   - 借鉴 Claude Code QueryEngine 思路
-  - 异步循环 + 状态机
+  - 异步循环 + state machine
   - 自有:tick 触发而非 REPL
 
 Layer 3: LLM 路由
@@ -39,7 +39,7 @@ Layer 4: 工具层(8 个 AI quant 工具)
 
 Layer 5: 基础设施
   - 借鉴 Claude Code memdir/state 思路
-  - 自有:JSON 文件存储(v0.1 简化版)
+  - 自有:JSON 存储(v0.1 简化版)
 ```
 
 ## 数据流(每 tick)
@@ -73,7 +73,7 @@ v0.1 (现在): 骨架 + mock 数据
   - 8 个工具的接口定义
   - Agent loop
   - LLM 路由
-  - 状态管理
+  - state mgmt
   - 1-2 周
 
 v0.5 (1 月): 接入真实 API

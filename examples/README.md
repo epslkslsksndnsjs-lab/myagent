@@ -2,7 +2,7 @@
 
 ## 列表
 
-| # | 文件 | 场景 | 难度 |
+| # | doc | case | 难度 |
 |---|---|---|---|
 | 1 | `01-backtest-ma-cross.ts` | 用 Binance 真实数据回测 MA Cross 策略 | ⭐⭐ |
 | 2 | `02-paper-trading.ts` | 完整 paper trading 流程(无需 API key) | ⭐ |
