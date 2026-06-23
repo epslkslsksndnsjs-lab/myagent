@@ -1,0 +1,152 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
+  background: #0d1117;
+  color: #c9d1d9;
+  line-height: 1.6;
+}
+
+a { color: #58a6ff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  border-bottom: 1px solid #30363d;
+}
+
+.hero h1 {
+  font-size: 64px;
+  margin-bottom: 16px;
+  color: #58a6ff;
+}
+
+.hero .tagline {
+  font-size: 28px;
+  color: #c9d1d9;
+  margin-bottom: 8px;
+}
+
+.hero .subtitle {
+  font-size: 16px;
+  color: #8b949e;
+  margin-bottom: 32px;
+}
+
+.cta {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background: #21262d;
+  color: #c9d1d9;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  background: #30363d;
+  border-color: #58a6ff;
+}
+
+.btn-primary {
+  background: #238636;
+  border-color: #238636;
+}
+
+.btn-primary:hover {
+  background: #2ea043;
+}
+
+section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+section h2 {
+  font-size: 32px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.feature {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 24px;
+}
+
+.feature h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #58a6ff;
+}
+
+.feature p {
+  color: #8b949e;
+  font-size: 14px;
+}
+
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.col {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 24px;
+}
+
+.col.bad h3 { color: #f85149; }
+.col.good h3 { color: #3fb950; }
+
+.col ul {
+  list-style: none;
+  margin-top: 16px;
+}
+
+.col li {
+  padding: 8px 0;
+  border-bottom: 1px solid #21262d;
+}
+
+.col li:last-child { border-bottom: none; }
+
+pre {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 20px;
+  overflow-x: auto;
+  font-family: 'SF Mono', 'Monaco', monospace;
+  font-size: 14px;
+}
+
+code {
+  font-family: inherit;
+}
+
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  border-top: 1px solid #30363d;
+  color: #8b949e;
+  font-size: 14px;
+}

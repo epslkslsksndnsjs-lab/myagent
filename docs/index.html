@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>myagent - AI Quant Trading Agent</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="hero">
+    <h1>🤖 myagent</h1>
+    <p class="tagline">AI-powered quant trading agent</p>
+    <p class="subtitle">AI 增强的量化交易 agent · 蓝海方向:不是做 quant 工具,是做"AI 增强 quant 工具"</p>
+
+    <div class="cta">
+      <a href="https://github.com/yourname/myagent" class="btn btn-primary">⭐ GitHub</a>
+      <a href="https://github.com/yourname/myagent#quick-start" class="btn">📖 文档</a>
+    </div>
+  </div>
+
+  <section class="features">
+    <h2>核心特性</h2>
+    <div class="grid">
+      <div class="feature">
+        <h3>🎯 8 个 AI Quant 工具</h3>
+        <p>get_market_data / place_order / get_balance / get_positions / get_historical_data / run_backtest / send_alert / update_config</p>
+      </div>
+
+      <div class="feature">
+        <h3>🤖 多 LLM 路由</h3>
+        <p>支持 Claude / OpenAI / DeepSeek / Qwen,自动降级链</p>
+      </div>
+
+      <div class="feature">
+        <h3>📊 技术指标库</h3>
+        <p>SMA / EMA / MACD / RSI / Bollinger / ATR,纯函数无依赖</p>
+      </div>
+
+      <div class="feature">
+        <h3>🎯 策略引擎</h3>
+        <p>MA Cross / RSI Mean Reversion,可扩展</p>
+      </div>
+
+      <div class="feature">
+        <h3>🌐 实时 Web UI</h3>
+        <p>Vite + React,实时面板、持仓、行情</p>
+      </div>
+
+      <div class="feature">
+        <h3>🐳 一键部署</h3>
+        <p>Docker / systemd / Docker Compose,3 种方式</p>
+      </div>
+
+      <div class="feature">
+        <h3>🔔 4 通道告警</h3>
+        <p>钉钉 / 微信 / Telegram / Webhook</p>
+      </div>
+
+      <div class="feature">
+        <h3>🛡️ 风控纪律</h3>
+        <p>0.5% 风险/单, 60% 总持仓, 20% 单标的, 1.5x 杠杆</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="why">
+    <h2>为什么 myagent?</h2>
+    <div class="comparison">
+      <div class="col bad">
+        <h3>传统 quant 工具</h3>
+        <ul>
+          <li>vnpy 42K stars (Python)</li>
+          <li>backtrader 12K stars</li>
+          <li>100+ 个免费工具</li>
+          <li>0 个 AI 集成</li>
+          <li>用户自己写策略、自己监控</li>
+        </ul>
+      </div>
+      <div class="col good">
+        <h3>myagent</h3>
+        <ul>
+          <li>AI 友好的 input/output</li>
+          <li>多 LLM 路由(国产优先)</li>
+          <li>自然语言写策略</li>
+          <li>AI 7×24 自动监控</li>
+          <li>0 竞品(蓝海)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="quick-start">
+    <h2>5 分钟快速开始</h2>
+    <pre><code># 1. 克隆
+git clone https://github.com/yourname/myagent.git
+cd myagent
+
+# 2. 安装
+bun install
+
+# 3. 配置
+cp .env.example .env
+# 填入 ANTHROPIC_API_KEY 或 DEEPSEEK_API_KEY
+
+# 4. 跑(paper 模式)
+QUANT_MODE=paper bun run dev</code></pre>
+  </section>
+
+  <section class="arch">
+    <h2>架构</h2>
+    <pre><code>myagent/
+├── src/
+│   ├── main.ts          # 入口 + 7×24 主循环
+│   ├── core/            # Agent / State / Context
+│   ├── llm/             # 多 LLM 路由(4 家)
+│   ├── tools/quant/     # 8 个 AI quant 工具
+│   ├── strategies/      # 5 个技术指标 + 2 个策略
+│   ├── exchanges/       # OKX / Binance 真实 API
+│   ├── data/            # CoinGecko 免费行情
+│   └── alerts/          # 4 通道告警
+├── web/                 # Vite + React UI
+├── tests/               # vitest 测试
+├── deploy/              # systemd + install
+└── docs/                # 文档</code></pre>
+  </section>
+
+  <footer>
+    <p>MIT License · 由 AI + 人类共同构建 · <a href="https://github.com/yourname/myagent">GitHub</a></p>
+  </footer>
+</body>
+</html>
