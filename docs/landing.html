@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>myagent - 让 AI 帮你做 quant trading</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="hero">
+    <h1>🤖 myagent</h1>
+    <p class="tagline">让 AI 帮你做 quant trading</p>
+    <p class="subtitle">5 分钟上手 · 7×24 自动 · 多 LLM 路由 · 13 个工具 · 4 个策略</p>
+    <div class="cta">
+      <a href="https://github.com/epslkslsksndnsjs-lab/myagent" class="btn btn-primary">⭐ GitHub Star</a>
+      <a href="#quick-start" class="btn">🚀 5 分钟上手</a>
+      <a href="#why" class="btn">🤔 为什么用</a>
+    </div>
+  </div>
+
+  <section id="why" class="why">
+    <h2>为什么 99% 散户 quant trader 失败?</h2>
+    <div class="cards">
+      <div class="card bad">
+        <h3>❌ 现状</h3>
+        <ul>
+          <li>vnpy 42K stars,但用户得自己写策略</li>
+          <li>backtrader 12K stars,学习曲线陡峭</li>
+          <li>100+ 个 quant 工具,0 个 AI 集成</li>
+          <li>用户自己 7×24 盯盘</li>
+          <li>自己写风控,自己 debug</li>
+        </ul>
+      </div>
+      <div class="card good">
+        <h3>✅ myagent 解决方案</h3>
+        <ul>
+          <li>AI 友好:自然语言写策略</li>
+          <li>多 LLM:Claude / GPT / DeepSeek / Qwen</li>
+          <li>5min 上手:无需 Python,无需 quant 知识</li>
+          <li>7×24 自动:系统服务</li>
+          <li>智能风控:0.5% 纪律,Kelly 仓位</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="quick-start" class="quick-start">
+    <h2>5 分钟上手</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>克隆</h3>
+          <pre><code>git clone https://github.com/epslkslsksndnsjs-lab/myagent.git
+cd myagent</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>安装</h3>
+          <pre><code>bun install</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>配置(可选)</h3>
+          <pre><code>cp .env.example .env
+# 填入 LLM API key</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>跑</h3>
+          <pre><code>QUANT_MODE=paper bun run dev</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2>核心能力</h2>
+    <div class="grid">
+      <div class="feature">
+        <h3>🎯 13 个 AI 工具</h3>
+        <p>行情/下单/余额/持仓/历史/回测/告警/配置 + 5 个风控工具</p>
+      </div>
+      <div class="feature">
+        <h3>🤖 5 LLM 路由</h3>
+        <p>Claude / GPT / DeepSeek / Qwen / Mock,自动降级</p>
+      </div>
+      <div class="feature">
+        <h3>📊 6 指标 + 4 策略</h3>
+        <p>SMA / EMA / MACD / RSI / Bollinger / ATR,4 个开箱即用策略</p>
+      </div>
+      <div class="feature">
+        <h3>📈 完整回测</h3>
+        <p>12 个性能指标(夏普/索提诺/卡玛/最大回撤/...)</p>
+      </div>
+      <div class="feature">
+        <h3>🌐 实时 Web UI</h3>
+        <p>Vite + React,深色主题,实时刷新</p>
+      </div>
+      <div class="feature">
+        <h3>🐳 一键部署</h3>
+        <p>Docker / systemd / Docker Compose,3 种部署</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>5-10 年慢搭,我们陪你</h2>
+    <p>"5-10 年坚持" 本身就是不可复制的 moat</p>
+    <div class="cta">
+      <a href="https://github.com/epslkslsksndnsjs-lab/myagent" class="btn btn-primary">⭐ Star 一下</a>
+      <a href="https://github.com/epslkslsksndnsjs-lab/myagent/fork" class="btn">🔱 Fork 试玩</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>MIT License · 由 AI + 人类共同构建 · <a href="https://github.com/epslkslsksndnsjs-lab/myagent">GitHub</a></p>
+  </footer>
+</body>
+</html>

@@ -2,43 +2,39 @@
  * 多 LLM 路由 - 借鉴 claude-code-router 35K stars 模式
  *
  * 支持:
- *   - Anthropic Claude(主,推理最强)
- *   - OpenAI GPT(备选)
- *   - DeepSeek(国产,便宜)
- *   - Qwen 通义千问(国产)
+ *   - Anthropic Claude
+ *   - OpenAI GPT
+ *   - DeepSeek
+ *   - Qwen
+ *   - Mock(本地测试)
  *
- * 路由策略:
- *   - 强信号:走规则(不调 LLM)
- *   - 中信号:Haiku 级(便宜)
- *   - 弱信号:Sonnet 级(平衡)
- *   - 关键决策:Opus 级(贵但关键)
- *
- * 借鉴 claude-code-router,但有差异化:
- *   - 默认 + 国产 LLM(中国用户友好)
- *   - 自带降级链(LLM 失败 → 本地 → 规则)
+ * 路由策略 + 降级链
  */
 
-interface LLMConfig {
+import { logger } from '../utils/logger';
+import { MockLLM } from './mock';
+
+export interface LLMConfig {
   anthropic?: string;
   openai?: string;
   deepseek?: string;
   qwen?: string;
+  mock?: boolean;  // 强制使用 mock
 }
 
-interface ChatMessage {
+export interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
 }
 
-interface ChatRequest {
+export interface ChatRequest {
   messages: ChatMessage[];
   maxTokens?: number;
   temperature?: number;
-  // 强制使用某个 provider
-  provider?: 'anthropic' | 'openai' | 'deepseek' | 'qwen';
+  provider?: 'anthropic' | 'openai' | 'deepseek' | 'qwen' | 'mock';
 }
 
-interface ChatResponse {
+export interface ChatResponse {
   content: string;
   provider: string;
   model: string;
@@ -50,13 +46,16 @@ interface ChatResponse {
 
 export class LLMRouter {
   private config: LLMConfig;
+  private mockLLM: MockLLM;
 
   constructor(config: LLMConfig) {
     this.config = config;
+    this.mockLLM = new MockLLM();
   }
 
   getAvailableProviders(): string[] {
     const available: string[] = [];
+    if (this.config.mock) available.push('mock');
     if (this.config.anthropic) available.push('anthropic');
     if (this.config.openai) available.push('openai');
     if (this.config.deepseek) available.push('deepseek');
@@ -65,10 +64,17 @@ export class LLMRouter {
   }
 
   async chat(req: ChatRequest): Promise<ChatResponse> {
+    // Mock 模式优先
+    if (req.provider === 'mock' || (this.config.mock && !req.provider)) {
+      return await this.mockLLM.chat(req);
+    }
+
     const provider = req.provider || this.selectProvider();
 
     try {
       switch (provider) {
+        case 'mock':
+          return await this.mockLLM.chat(req);
         case 'anthropic':
           return await this.callAnthropic(req);
         case 'openai':
@@ -78,28 +84,27 @@ export class LLMRouter {
         case 'qwen':
           return await this.callQwen(req);
         default:
-          throw new Error(`No LLM provider available`);
+          throw new Error(`Unknown provider: ${provider}`);
       }
     } catch (error) {
-      // 降级链
-      console.error(`LLM ${provider} failed:`, error);
+      logger.error(`LLM ${provider} failed:`, error);
       return await this.fallback(req, provider);
     }
   }
 
-  private selectProvider(): 'anthropic' | 'openai' | 'deepseek' | 'qwen' {
-    // 优先级:anthropic > openai > deepseek > qwen
+  private selectProvider(): 'anthropic' | 'openai' | 'deepseek' | 'qwen' | 'mock' {
+    if (this.config.mock) return 'mock';
     if (this.config.anthropic) return 'anthropic';
     if (this.config.openai) return 'openai';
     if (this.config.deepseek) return 'deepseek';
     if (this.config.qwen) return 'qwen';
-    throw new Error('No LLM provider configured');
+    // 都没配就用 mock
+    return 'mock';
   }
 
   private async callAnthropic(req: ChatRequest): Promise<ChatResponse> {
-    // 动态 import SDK(避免启动时强制需要)
     const { default: Anthropic } = await import('@anthropic-ai/sdk').catch(() => {
-      throw new Error('@anthropic-ai/sdk not installed. Run: bun add @anthropic-ai/sdk');
+      throw new Error('@anthropic-ai/sdk not installed');
     });
     const client = new Anthropic({ apiKey: this.config.anthropic });
 
@@ -127,7 +132,7 @@ export class LLMRouter {
 
   private async callOpenAI(req: ChatRequest): Promise<ChatResponse> {
     const { default: OpenAI } = await import('openai').catch(() => {
-      throw new Error('openai not installed. Run: bun add openai');
+      throw new Error('openai not installed');
     });
     const client = new OpenAI({ apiKey: this.config.openai });
 
@@ -149,9 +154,8 @@ export class LLMRouter {
   }
 
   private async callDeepSeek(req: ChatRequest): Promise<ChatResponse> {
-    // DeepSeek 兼容 OpenAI 协议,直接用 OpenAI client
     const { default: OpenAI } = await import('openai').catch(() => {
-      throw new Error('openai not installed. Run: bun add openai');
+      throw new Error('openai not installed');
     });
     const client = new OpenAI({
       apiKey: this.config.deepseek,
@@ -176,9 +180,8 @@ export class LLMRouter {
   }
 
   private async callQwen(req: ChatRequest): Promise<ChatResponse> {
-    // Qwen 兼容 OpenAI 协议
     const { default: OpenAI } = await import('openai').catch(() => {
-      throw new Error('openai not installed. Run: bun add openai');
+      throw new Error('openai not installed');
     });
     const client = new OpenAI({
       apiKey: this.config.qwen,
@@ -203,8 +206,8 @@ export class LLMRouter {
   }
 
   private async fallback(req: ChatRequest, failedProvider: string): Promise<ChatResponse> {
-    // 降级链:anthropic → openai → deepseek → qwen → 失败
-    const chain: Array<'anthropic' | 'openai' | 'deepseek' | 'qwen'> = ['anthropic', 'openai', 'deepseek', 'qwen'];
+    // 降级链
+    const chain: Array<'mock' | 'anthropic' | 'openai' | 'deepseek' | 'qwen'> = ['mock', 'anthropic', 'openai', 'deepseek', 'qwen'];
     const startIndex = chain.indexOf(failedProvider as any);
 
     for (let i = startIndex + 1; i < chain.length; i++) {
@@ -215,10 +218,12 @@ export class LLMRouter {
       try {
         return await this.chat({ ...req, provider });
       } catch (e) {
-        console.error(`Fallback to ${provider} failed:`, e);
+        logger.error(`Fallback to ${provider} failed:`, e);
       }
     }
 
-    throw new Error('All LLM providers failed');
+    // 全部失败,降级到 mock
+    logger.warn('All real LLMs failed, using mock');
+    return await this.mockLLM.chat(req);
   }
 }
