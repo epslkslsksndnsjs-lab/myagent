@@ -202,7 +202,7 @@ sudo journalctl -u myagent -f
 - [x] **v0.3**: 策略引擎 + Web UI + GitHub Pages
 - [x] **v0.4**: 回测引擎 + 风控工具 + Yahoo Finance
 - [x] **v0.5**: Mock LLM + Benchmark + 30+ 测试
-- [ ] **v0.6**: 真实 LLM 集成测试 + Paper trading 验证
+- [ ] **v0.6**: 真实 LLM integration + Paper trading verify
 - [ ] **v1.0**: 商业化 v1 + 100 客户
 - [ ] **v2.0**: 多 LLM 商业版 + 1000 客户
 

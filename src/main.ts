@@ -3,7 +3,7 @@
  *
  * CLI 模式:
  *   bun run src/main.ts start      (启动 daemon + metrics server)
- *   bun run src/main.ts status     (查看状态)
+ *   bun run src/main.ts status     (看 stats)
  *   bun run src/main.ts backtest   (回测)
  *   bun run src/main.ts paper      (paper trading)
  *   bun run src/main.ts config     (配置)

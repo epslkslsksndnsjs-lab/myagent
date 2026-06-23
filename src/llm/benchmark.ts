@@ -141,7 +141,7 @@ export class LLMBenchmark {
   }
 
   /**
-   * 验证决策
+   * verify decision
    */
   private validateDecision(decision: any, scenario: BenchmarkScenario): boolean {
     if (!decision) return false;

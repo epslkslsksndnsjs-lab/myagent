@@ -91,7 +91,7 @@ export class Daemon {
         console.error(`  [ERROR] tick ${tick}:`, e);
       }
 
-      // 状态持久化(每 10 tick)
+      // state persist(每 10 tick)
       if (tick % 10 === 0) {
         try {
           await saveState({ lastTick: tick, positions: [], pnl: 0 });

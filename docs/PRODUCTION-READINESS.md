@@ -41,12 +41,12 @@
 ### 6. 监控与日志
 - [x] 详细日志(logger)
 - [x] 错误堆栈
-- [x] 状态持久化(state.json)
+- [x] state persist(state.json)
 - [x] 优雅退出(SIGTERM)
 - [ ] 集中日志(ELK) — 未来
 
 ### 7. 数据可靠性
-- [x] 状态自动保存(每 10 tick)
+- [x] state auto save(每 10 tick)
 - [x] 崩溃恢复(loadState)
 - [x] 工具调用错误处理(try/catch)
 - [ ] 数据备份 — 未来
@@ -89,9 +89,9 @@
 - [ ] Prometheus + Grafana 完整 dashboard
 - [ ] 实时 stream 处理(Kafka)
 
-## 📊 当前状态
+## 📊 current stats
 
-| 维度 | 状态 |
+| 维度 | ok? |
 |---|---|
 | 文件数 | 100+ |
 | 代码行 | 6,500+ |
@@ -115,13 +115,13 @@
 4. 运行: `sudo ./deploy/install.sh`
 5. 编辑 .env(填 API key)
 6. 重启: `sudo systemctl restart myagent`
-7. 验证: `curl http://localhost:9090/health`
+7. verify: `curl http://localhost:9090/health`
 
 ### 升级
 1. 拉新代码: `cd /opt/myagent && sudo -u myagent git pull`
 2. 装新依赖: `sudo -u myagent bun install`
 3. 重启: `sudo systemctl restart myagent`
-4. 验证: `curl http://localhost:9090/health`
+4. verify: `curl http://localhost:9090/health`
 
 ### 监控接入
 - 接入 Prometheus: `http://server:9090/metrics`

@@ -1,6 +1,6 @@
 /**
  * E2E 端到端测试
- * 验证:从启动到出信号的完整流程
+ * verify:从启动到出信号的完整流程
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
@@ -40,7 +40,7 @@ describe('E2E: Full Flow', () => {
       results.push({ tick: i, duration });
     }
 
-    // 3. 验证
+    // 3. verify
     expect(results).toHaveLength(3);
     for (const r of results) {
       expect(r.duration).toBeGreaterThan(0);
@@ -71,7 +71,7 @@ describe('E2E: Full Flow', () => {
 
     const result = await engine.run(candles);
 
-    // 3. 验证
+    // 3. verify
     expect(result.config.symbol).toBe('BTC/USDT');
     expect(result.finalEquity).toBeGreaterThan(0);
     expect(result.totalTrades).toBeGreaterThanOrEqual(0);
@@ -101,7 +101,7 @@ describe('E2E: Full Flow', () => {
     }
     metrics.set('portfolio_value_usd', 10500);
 
-    // 4. 验证
+    // 4. verify
     const healthStatus = await health.checkAll();
     expect(healthStatus.status).toBe('ok');
     expect(healthStatus.checks.llm.status).toBe('ok');
@@ -163,7 +163,7 @@ describe('E2E: Data Pipeline', () => {
     const equity = [10000, 10100, 10200, 10150, 10300, 10400, 10500];
     const perf = calculateMetrics(equity);
 
-    // 5. 验证
+    // 5. verify
     expect(prices).toBeDefined();
     expect(signal).toMatch(/buy|sell|hold/);
     expect(perf.totalReturn).toBeGreaterThan(0);

@@ -28,7 +28,7 @@ export class CLI {
   }
 
   /**
-   * status - 查看状态
+   * status - 看 stats
    */
   static async status(): Promise<void> {
     console.log('🤖 myagent status\n');
@@ -62,7 +62,7 @@ export class CLI {
       console.log(`  持仓数: ${state.positions.length}`);
       console.log(`  PnL: $${state.pnl.toFixed(2)}`);
     } catch {
-      console.log('\n状态: 未运行(无 state.json)');
+      console.log('\nstats: 未运行(无 state.json)');
     }
   }
 
@@ -155,7 +155,7 @@ export class CLI {
 
 命令:
   start              启动 daemon(7×24 + metrics server)
-  status             查看状态
+  status             看 stats
   backtest [symbol]  跑回测
   paper              跑 1 次 paper trading
   config <action>    配置管理 (show | init)

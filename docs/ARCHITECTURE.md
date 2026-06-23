@@ -83,7 +83,7 @@ v0.5 (1 月): 接入真实 API
   - 1 月
 
 v1.0 (2-3 月): 真实交易
-  - Paper trading 验证
+  - Paper trading verify
   - 风控规则
   - 告警
   - 2-3 月
