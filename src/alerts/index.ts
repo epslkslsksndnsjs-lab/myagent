@@ -1,125 +1,161 @@
 /**
- * 告警通道 - 钉钉/微信/Telegram
+ * 告警通道 - 多通道支持
  *
- * 用户配置 webhook URL 即生效
+ * - 钉钉 (DingTalk)
+ * - 微信 (WeChat Work)
+ * - Telegram
+ * - Discord
+ * - Slack
+ * - 通用 Webhook
  */
 
 import { logger } from '../utils/logger';
+import { DiscordAlerter } from './discord';
+import { SlackAlerter } from './slack';
 
 export interface AlertConfig {
   dingtalk?: string;
   wechat?: string;
   telegram?: string;
-  webhook?: string;  // 通用 webhook
+  discord?: string;
+  slack?: string;
+  webhook?: string;
 }
 
 export interface Alert {
   level: 'info' | 'warning' | 'error' | 'critical';
   msg: string;
-  data?: any;
+  data?: Record<string, any>;
 }
 
 export class AlertManager {
-  constructor(private config: AlertConfig) {}
+  private discord?: DiscordAlerter;
+  private slack?: SlackAlerter;
+
+  constructor(private config: AlertConfig) {
+    if (config.discord) this.discord = new DiscordAlerter(config.discord);
+    if (config.slack) this.slack = new SlackAlerter(config.slack);
+  }
 
   async send(alert: Alert): Promise<{ sent: boolean; channels: string[] }> {
     const channels: string[] = [];
-    let allOk = true;
+    const promises: Promise<boolean>[] = [];
 
     // 钉钉
     if (this.config.dingtalk) {
-      try {
-        await this.sendDingTalk(alert);
-        channels.push('dingtalk');
-      } catch (e) {
-        logger.error('DingTalk alert failed:', e);
-        allOk = false;
-      }
+      promises.push(this.sendDingTalk(alert).then(ok => {
+        if (ok) channels.push('dingtalk');
+        return ok;
+      }));
     }
 
     // 微信
     if (this.config.wechat) {
-      try {
-        await this.sendWeChat(alert);
-        channels.push('wechat');
-      } catch (e) {
-        logger.error('WeChat alert failed:', e);
-        allOk = false;
-      }
+      promises.push(this.sendWeChat(alert).then(ok => {
+        if (ok) channels.push('wechat');
+        return ok;
+      }));
     }
 
     // Telegram
     if (this.config.telegram) {
-      try {
-        await this.sendTelegram(alert);
-        channels.push('telegram');
-      } catch (e) {
-        logger.error('Telegram alert failed:', e);
-        allOk = false;
-      }
+      promises.push(this.sendTelegram(alert).then(ok => {
+        if (ok) channels.push('telegram');
+        return ok;
+      }));
+    }
+
+    // Discord
+    if (this.discord) {
+      promises.push(this.discord.send(alert).then(ok => {
+        if (ok) channels.push('discord');
+        return ok;
+      }));
+    }
+
+    // Slack
+    if (this.slack) {
+      promises.push(this.slack.send(alert).then(ok => {
+        if (ok) channels.push('slack');
+        return ok;
+      }));
     }
 
     // 通用 webhook
     if (this.config.webhook) {
-      try {
-        await this.sendWebhook(alert, this.config.webhook);
-        channels.push('webhook');
-      } catch (e) {
-        logger.error('Webhook alert failed:', e);
-        allOk = false;
-      }
+      promises.push(this.sendWebhook(alert, this.config.webhook).then(ok => {
+        if (ok) channels.push('webhook');
+        return ok;
+      }));
     }
 
-    // 没配任何通道,fallback 到 console
+    await Promise.allSettled(promises);
+
     if (channels.length === 0) {
       console.log(`[ALERT ${alert.level.toUpperCase()}] ${alert.msg}`, alert.data || '');
       channels.push('console');
     }
 
-    return { sent: allOk, channels };
+    return { sent: channels.length > 0, channels };
   }
 
-  private async sendDingTalk(alert: Alert): Promise<void> {
-    const text = `### myagent 告警\n\n**级别**: ${alert.level}\n**消息**: ${alert.msg}\n**时间**: ${new Date().toISOString()}`;
-    const response = await fetch(this.config.dingtalk!, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        msgtype: 'markdown',
-        markdown: { title: 'myagent 告警', text },
-      }),
-    });
-    if (!response.ok) throw new Error(`DingTalk HTTP ${response.status}`);
+  private async sendDingTalk(alert: Alert): Promise<boolean> {
+    try {
+      const text = `### myagent 告警\n\n**级别**: ${alert.level}\n**消息**: ${alert.msg}`;
+      const response = await fetch(this.config.dingtalk!, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ msgtype: 'markdown', markdown: { title: 'myagent 告警', text } }),
+      });
+      return response.ok;
+    } catch (e) {
+      logger.error('DingTalk failed:', e);
+      return false;
+    }
   }
 
-  private async sendWeChat(alert: Alert): Promise<void> {
-    const text = `myagent 告警\n[${alert.level}] ${alert.msg}\n${new Date().toISOString()}`;
-    const response = await fetch(this.config.wechat!, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ msgtype: 'text', text: { content: text } }),
-    });
-    if (!response.ok) throw new Error(`WeChat HTTP ${response.status}`);
+  private async sendWeChat(alert: Alert): Promise<boolean> {
+    try {
+      const text = `myagent 告警\n[${alert.level}] ${alert.msg}`;
+      const response = await fetch(this.config.wechat!, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ msgtype: 'text', text: { content: text } }),
+      });
+      return response.ok;
+    } catch (e) {
+      logger.error('WeChat failed:', e);
+      return false;
+    }
   }
 
-  private async sendTelegram(alert: Alert): Promise<void> {
-    // Telegram Bot API 格式: https://api.telegram.org/bot<TOKEN>/sendMessage
-    const url = this.config.telegram!;
-    const text = `🔔 *myagent*\n[${alert.level.toUpperCase()}] ${alert.msg}`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ parse_mode: 'Markdown', text }),
-    });
-    if (!response.ok) throw new Error(`Telegram HTTP ${response.status}`);
+  private async sendTelegram(alert: Alert): Promise<boolean> {
+    try {
+      const url = this.config.telegram!;
+      const text = `🔔 *myagent*\n[${alert.level.toUpperCase()}] ${alert.msg}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ parse_mode: 'Markdown', text }),
+      });
+      return response.ok;
+    } catch (e) {
+      logger.error('Telegram failed:', e);
+      return false;
+    }
   }
 
-  private async sendWebhook(alert: Alert, url: string): Promise<void> {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(alert),
-    });
-    if (!response.ok) throw new Error(`Webhook HTTP ${response.status}`);
+  private async sendWebhook(alert: Alert, url: string): Promise<boolean> {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(alert),
+      });
+      return response.ok;
+    } catch (e) {
+      logger.error('Webhook failed:', e);
+      return false;
+    }
   }
 }

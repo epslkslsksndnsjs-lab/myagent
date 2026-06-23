@@ -2,8 +2,8 @@
  * myagent - AI quant trading agent 入口
  *
  * CLI 模式:
- *   bun run src/main.ts start      (启动 daemon)
- *   bun run src/main.ts status     (看 system)
+ *   bun run src/main.ts start      (启动 daemon + metrics server)
+ *   bun run src/main.ts status     (查看状态)
  *   bun run src/main.ts backtest   (回测)
  *   bun run src/main.ts paper      (paper trading)
  *   bun run src/main.ts config     (配置)
