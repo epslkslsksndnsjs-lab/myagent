@@ -1,46 +1,51 @@
 # Changelog
 
+## [0.8.0-alpha] - 2026-06-23
+
+### Added
+- **Release 自动化脚本** (`scripts/release.sh`) - 完整 release 流程(测试 + tag + push + GitHub Release)
+- **Dev/Test 脚本** (`scripts/dev.sh` / `scripts/test.sh`)
+- **Production Readiness 文档** (`docs/PRODUCTION-READINESS.md`)
+- **完整 Docker Compose** - 支持 web/prometheus/grafana profiles
+- **Prometheus 配置** (`deploy/prometheus.yml`)
+- **多阶段 Dockerfile** - 最小镜像
+- **2 个新测试** (indicators edge cases / alerts)
+- 总测试数 50+
+
 ## [0.7.0-alpha] - 2026-06-23
 
 ### Added
-- **Prometheus metrics server** (`src/server/metrics_server.ts`) - HTTP /metrics /health 端点
-- **Daemon 模式** (`src/cli/daemon.ts`) - 集成 metrics + health + agent
-- **TradingView 集成** (`src/data/tradingview.ts`) - UDDF 数据模型 + TV Lightweight Charts 兼容
-- **Discord 告警** (`src/alerts/discord.ts`) - embed 格式
-- **Slack 告警** (`src/alerts/slack.ts`) - Block Kit 格式
-- **3 个新示例** (5/6/7) - 多数据源/metrics exporter/Discord 告警
-
-### Tests
-- 3 个新测试 (metrics_server / tradingview / discord)
-- 总测试数 45+
+- Prometheus metrics server
+- Daemon 模式
+- TradingView 集成
+- Discord/Slack 告警
 
 ## [0.6.0-alpha] - 2026-06-23
 
 ### Added
-- Metrics / Health / Config / CLI
-- E2E 测试
+- Metrics / Health / Config / CLI / E2E
 
 ## [0.5.0-alpha] - 2026-06-23
 
 ### Added
-- Mock LLM / Benchmark / 4 示例 / Marketing
+- Mock LLM / Benchmark / 4 示例
 
 ## [0.4.0-alpha] - 2026-06-23
 
 ### Added
-- 回测 + 性能指标 + Yahoo + 5 工具
+- 回测 + 性能指标 + Yahoo
 
 ## [0.3.0-alpha] - 2026-06-23
 
 ### Added
-- 6 指标 + 4 策略 + Web UI + Pages
+- 6 指标 + 4 策略 + Web UI
 
 ## [0.2.0-alpha] - 2026-06-23
 
 ### Added
-- OKX + Binance + 4 告警 + CI/CD + Docker
+- OKX + Binance + 4 告警
 
 ## [0.1.0-alpha.1] - 2026-06-23
 
 ### Added
-- 基础架构 + 8 工具 + 多 LLM + 7×24
+- 基础架构 + 8 工具

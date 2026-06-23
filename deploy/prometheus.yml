@@ -1,0 +1,17 @@
+# Prometheus 配置 - myagent
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # myagent metrics
+  - job_name: 'myagent'
+    static_configs:
+      - targets: ['myagent:9090']
+    metrics_path: '/metrics'
+
+  # myagent health
+  - job_name: 'myagent-health'
+    static_configs:
+      - targets: ['myagent:9090']
+    metrics_path: '/health'

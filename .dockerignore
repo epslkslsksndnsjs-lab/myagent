@@ -1,16 +1,52 @@
-node_modules
-dist
-.git
-.github
-data
-logs
-*.log
-.env
-.env.local
-.vscode
-.idea
-coverage
-tests
-docs
+# Dependencies
+node_modules/
+bun.lockb
+
+# Build artifacts
+dist/
+build/
+
+# Git
+.git/
+.gitignore
+
+# Documentation
 *.md
 !README.md
+docs/
+
+# Tests
+tests/
+*.test.ts
+*.spec.ts
+coverage/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Build tools
+.eslintrc*
+.prettierrc*
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Project specific
+data/
+.git/
+.github/workflows/
+examples/strategies/
+scripts/

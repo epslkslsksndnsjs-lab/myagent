@@ -1,8 +1,12 @@
 version: '3.8'
 
 services:
+  # 主服务:myagent daemon
   myagent:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: myagent:latest
     container_name: myagent
     restart: always
     env_file:
@@ -10,8 +14,63 @@ services:
     volumes:
       - ./data:/app/data
       - ./logs:/app/logs
+    ports:
+      - "9090:9090"  # metrics / health
+    environment:
+      - TZ=UTC
+    healthcheck:
+      test: ["CMD", "bun", "run", "-e", "fetch('http://localhost:9090/health/live').then(r => r.ok ? process.exit(0) : process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     logging:
       driver: json-file
       options:
         max-size: "10m"
         max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '2.0'
+
+  # 可选:Web UI(独立服务)
+  web:
+    image: myagent-web:latest
+    build:
+      context: ./web
+    container_name: myagent-web
+    restart: always
+    ports:
+      - "5173:5173"  # Vite dev server
+    profiles: ["with-web"]  # 默认不启动
+
+  # 可选:Prometheus(监控)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: myagent-prometheus
+    restart: always
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./deploy/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    profiles: ["with-monitoring"]
+
+  # 可选:Grafana(可视化)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: myagent-grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+    profiles: ["with-monitoring"]
+
+volumes:
+  grafana-data:
