@@ -239,7 +239,7 @@ sudo journalctl -u myagent -f
 
 本项目借鉴了以下开源项目(架构思路):
 
-- [Claude Code 2.1.88](https://github.com/anthropics/claude-code) - Agent 架构(已开源泄露)
+- [Claude Code 2.1.88](https://github.com/anthropics/claude-code) - Agent 设计(已开源泄露)
 - [claude-code-router](https://github.com/musistudio/claude-code-router) - 多 LLM 路由(35K stars MIT)
 - [vnpy](https://github.com/vnpy/vnpy) - Quant 工具(42K stars MIT)
 - [Lean](https://github.com/QuantConnect/Lean) - 回测引擎
